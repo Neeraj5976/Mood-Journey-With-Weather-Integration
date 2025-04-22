@@ -1,0 +1,74 @@
+<div class="mood-entry-container">
+  <div class="header">
+    <h1>MoodMate</h1>
+    <div class="weather" *ngIf="weather">
+      <span class="temperature">{{ weather.temperature }}°C</span>
+      <img [src]="getWeatherIcon(weather.icon)" [alt]="weather.description">
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="date-display">
+      <h2>{{ currentDate | date:'MMMM d, yyyy' }}</h2>
+      <p>How are you feeling today?</p>
+    </div>
+
+    <!-- Mobile Mood Selector -->
+    <div class="mobile-mood-selector" *ngIf="isMobileView">
+      <div class="mood-tiles">
+        <div 
+          *ngFor="let mood of moods" 
+          class="mood-tile"
+          [class.selected]="selectedMood === mood.value"
+          (click)="selectMood(mood.value)"
+          [style.background-color]="mood.color">
+          <span class="mood-emoji">{{ mood.emoji }}</span>
+          <span class="mood-label">{{ getMoodLabel(mood.value) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desktop Mood Selector -->
+    <div class="desktop-mood-selector" *ngIf="!isMobileView">
+      <button 
+        *ngFor="let mood of moods" 
+        [class.selected]="selectedMood === mood.value"
+        (click)="selectMood(mood.value)"
+        class="mood-button"
+        [style.background-color]="mood.color">
+        {{ mood.emoji }}
+      </button>
+    </div>
+
+    <div class="note-input">
+      <textarea 
+        placeholder="Add a note..."
+        [(ngModel)]="note"
+        rows="3">
+      </textarea>
+    </div>
+
+    <button class="save-button" (click)="saveMoodEntry()" [disabled]="!selectedMood || !note">
+      Save
+    </button>
+  </div>
+
+  <div class="calendar-section">
+    <h3>{{ currentDate | date:'MMMM' }}</h3>
+    <div class="calendar">
+      <div class="calendar-header">
+        <span *ngFor="let day of weekDays">{{ day }}</span>
+      </div>
+      <div class="calendar-grid">
+        <div 
+          *ngFor="let date of calendarDates" 
+          class="calendar-day"
+          [class.today]="isToday(date)"
+          [class.has-entry]="hasEntry(date)">
+          {{ date | date:'d' }}
+          <div *ngIf="hasEntry(date)" class="mood-indicator" [style.background-color]="getEntryColor(date)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

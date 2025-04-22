@@ -1,0 +1,35 @@
+<div class="mood-list-container">
+  <h1>All Notes</h1>
+  
+  <div class="filters">
+    <select [(ngModel)]="selectedMood" (change)="filterEntries()">
+      <option value="">All Moods</option>
+      <option *ngFor="let mood of moods" [value]="mood.value">
+        {{ mood.emoji }} {{ mood.label }}
+      </option>
+    </select>
+  </div>
+
+  <div class="entries">
+    <div *ngFor="let entry of filteredEntries" class="entry-card" [style.border-color]="getMoodColor(entry.mood)">
+      <div class="entry-header">
+        <div class="date-mood">
+          <span class="date">{{ entry.date | date:'MMM d, yyyy' }}</span>
+          <span class="mood">{{ getMoodEmoji(entry.mood) }}</span>
+        </div>
+        <div class="weather">
+          <span>{{ entry.weather.temperature }}°C</span>
+          <img [src]="getWeatherIcon(entry.weather.icon)" [alt]="entry.weather.description">
+        </div>
+      </div>
+      
+      <div class="note" *ngIf="entry.note">
+        {{ entry.note }}
+      </div>
+    </div>
+
+    <div *ngIf="filteredEntries.length === 0" class="no-entries">
+      No entries found
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="calendar-container">
+  <div class="calendar-header">
+    <h1>Mood Calendar</h1>
+    <div class="month-navigation">
+      <button class="nav-button" (click)="previousMonth()" aria-label="Previous month">←</button>
+      <h2>{{ getMonthYear() }}</h2>
+      <button class="nav-button" (click)="nextMonth()" aria-label="Next month">→</button>
+    </div>
+  </div>
+
+  <div class="calendar">
+    <div class="weekdays">
+      <div *ngFor="let day of weekDays" class="weekday">{{ day }}</div>
+    </div>
+
+    <div class="days-grid">
+      <div 
+        *ngFor="let day of calendarDays" 
+        class="day-cell"
+        [class.current-month]="day.isCurrentMonth"
+        [class.today]="isToday(day.date)"
+        [class.has-entry]="day.moodEntry"
+        [attr.aria-label]="getDayAriaLabel(day)">
+        <div class="date">{{ day.date | date:'d' }}</div>
+        <div *ngIf="day.moodEntry" class="mood-indicator">
+          <span class="mood-emoji" [style.color]="getMoodColor(day.moodEntry.mood)">
+            {{ getMoodEmoji(day.moodEntry.mood) }}
+          </span>
+          <div class="mood-details" *ngIf="day.moodEntry.note">
+            <div class="note">{{ day.moodEntry.note }}</div>
+            <div class="weather">
+              <span>{{ day.moodEntry.weather.temperature }}°C</span>
+              <img [src]="'http://openweathermap.org/img/w/' + day.moodEntry.weather.icon + '.png'" 
+                   [alt]="day.moodEntry.weather.description"
+                   loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mood-legend">
+    <div *ngFor="let mood of moods" class="legend-item">
+      <span class="emoji">{{ mood.emoji }}</span>
+      <span class="color" [style.background-color]="mood.color"></span>
+    </div>
+  </div>
+</div>
