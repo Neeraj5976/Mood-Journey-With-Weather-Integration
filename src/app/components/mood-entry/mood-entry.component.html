@@ -71,4 +71,11 @@
       </div>
     </div>
   </div>
+
+  <!-- Notification Component -->
+  <app-notification
+    *ngIf="showNotification"
+    [message]="notificationMessage"
+    [type]="notificationType">
+  </app-notification>
 </div>

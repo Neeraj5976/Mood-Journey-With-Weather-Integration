@@ -10,13 +10,15 @@ import { AppComponent } from './app.component';
 import { MoodEntryComponent } from './components/mood-entry/mood-entry.component';
 import { MoodListComponent } from './components/mood-list/mood-list.component';
 import { CalendarViewComponent } from './components/calendar-view/calendar-view.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MoodEntryComponent,
     MoodListComponent,
-    CalendarViewComponent
+    CalendarViewComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,

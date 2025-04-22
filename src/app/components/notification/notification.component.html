@@ -1,0 +1,10 @@
+<div class="notification" [class.visible]="isVisible" [class.success]="type === 'success'" [class.error]="type === 'error'" [class.info]="type === 'info'">
+  <div class="notification-content">
+    <span class="icon">
+      <ng-container *ngIf="type === 'success'">✓</ng-container>
+      <ng-container *ngIf="type === 'error'">✕</ng-container>
+      <ng-container *ngIf="type === 'info'">ℹ</ng-container>
+    </span>
+    <span class="message">{{ message }}</span>
+  </div>
+</div> 

@@ -22,6 +22,9 @@ export class MoodEntryComponent implements OnInit {
   weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   calendarDates: Date[] = [];
   isMobileView = false;
+  showNotification: boolean = false;
+  notificationMessage: string = '';
+  notificationType: 'success' | 'error' | 'info' = 'success';
 
   moods: Mood[] = [
     { value: 5, emoji: '😊', color: '#FFD700', label: 'Great' },
@@ -33,9 +36,10 @@ export class MoodEntryComponent implements OnInit {
 
   constructor(
     private weatherService: WeatherService,
-    private moodService: MoodService
+    private moodService: MoodService,
   ) {
     this.checkMobileView();
+    window.addEventListener('resize', () => this.checkMobileView());
   }
 
   @HostListener('window:resize')
@@ -97,6 +101,7 @@ export class MoodEntryComponent implements OnInit {
 
     this.moodService.addMoodEntry(entry);
     this.resetForm();
+    this.showSuccessNotification('Mood entry saved successfully!');
   }
 
   private resetForm() {
@@ -120,5 +125,23 @@ export class MoodEntryComponent implements OnInit {
 
   getMoodLabel(moodValue: number): string {
     return this.moods.find(m => m.value === moodValue)?.label || '';
+  }
+
+  showSuccessNotification(message: string) {
+    this.notificationMessage = message;
+    this.notificationType = 'success';
+    this.showNotification = true;
+    setTimeout(() => {
+      this.showNotification = false;
+    }, 3000);
+  }
+
+  showErrorNotification(message: string) {
+    this.notificationMessage = message;
+    this.notificationType = 'error';
+    this.showNotification = true;
+    setTimeout(() => {
+      this.showNotification = false;
+    }, 3000);
   }
 }
